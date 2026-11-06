@@ -24,9 +24,9 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Install Android packages
-        run: sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+        with:
+          packages: 'platform-tools,platforms;android-35,build-tools;35.0.0'
+          accept-android-sdk-licenses: true
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -38,7 +38,8 @@ jobs:
           unzip -q NextorCord-Android-Project.zip -d project
 
       - name: Build debug APK
-        run: gradle -p project/NextorCord --no-daemon assembleDebug
+        run: |
+          gradle -p project/NextorCord --no-daemon assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
